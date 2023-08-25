@@ -16,4 +16,4 @@ input:
 mat-files: such as GU_20110126_1-01.psth.mat                        
 
 output:                                                                                          
-mat-files: sach as GU_20110126_R01a1_1_binned_data_forNDT.mat                                                     
+mat-files: such as GU_20110126_R01a1_1_binned_data_forNDT.mat                                                     
