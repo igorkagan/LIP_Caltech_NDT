@@ -1,16 +1,17 @@
 %function LIP_Caltech__Neural_Decording_Toolbox
  clear
     
-    % add the path to the NDT so add_ndt_paths_and_init_rand_generator can be called
-    toolbox_basedir_name = 'ndt.1.0.4/'
-    addpath(toolbox_basedir_name);
-    
-    % add the NDT paths using add_ndt_paths_and_init_rand_generator
-    add_ndt_paths_and_init_rand_generator
-    
+%     % add the path to the NDT so add_ndt_paths_and_init_rand_generator can be called
+     toolbox_basedir_name = 'ndt.1.0.4/'
+%     addpath(toolbox_basedir_name);
+%     
+%     % add the NDT paths using add_ndt_paths_and_init_rand_generator
+%     add_ndt_paths_and_init_rand_generator
+%     
     run('LIP_Caltech_NDT_settings');
     cd (OUTPUT_PATH);
     
+      
     filename = 'GU_20110126_R01a1_1_binned_data_forNDT.mat';
     binned_format_file_name = [OUTPUT_PATH filename];
     load(filename);
@@ -28,7 +29,7 @@
     %Determining how many times each condition was repeated
     %load the binned data
 
-    for k = 1:205
+    for k = 1:25
         inds_of_sites_with_at_least_k_repeats = find_sites_with_k_label_repetitions(binned_labels.stimulus_ID, k);
         num_sites_with_k_repeats(k) = length(inds_of_sites_with_at_least_k_repeats);
     end
@@ -41,9 +42,11 @@
 % will decode the identity of which object was shown (regardless of its position)
 specific_label_name_to_use = 'stimulus_ID';
 %  20 cross-validation runs
-num_cv_splits = 20;
+num_cv_splits = 3; % 20 
 % Create a datasource that takes our binned data, and specifies that we want to decode
 ds = basic_DS(binned_format_file_name, specific_label_name_to_use, num_cv_splits);
+%ds.time_periods_to_get_data_from = {280}; % lenght ()
+ds.label_names_to_use = [{'instr_r', 'instr_l'}]; % {'instr_r', 'instr_l'} {'choice_r', 'choice_l'}
 file_name = [OUTPUT_PATH extracted_string '_binned_data_DS'];
 save (file_name, 'ds');
 
@@ -64,7 +67,7 @@ the_classifier = max_correlation_coefficient_CL;
 the_cross_validator = standard_resample_CV(ds, the_classifier, the_feature_preprocessors);
 % set how many times the outer 'resample' loop is run
 % generally we use more than 2 resample runs which will give more accurate results, but to save time in this tutorial we are using a small number.
-the_cross_validator.num_resample_runs = 10;
+the_cross_validator.num_resample_runs = 2; % 10
 
 
 %Running the decoding analysis and saving the results
@@ -95,19 +98,20 @@ plot_obj.significant_event_times = 0;
 plot_obj.plot_results;
 ylim([0 100]);
 line([0 0], [0 100], 'color', [0.6 0.6 0.6]);
+hold on; title ([ds.label_names_to_use]); 
 saveas(gcf, [OUTPUT_PATH extracted_string '_decoding_accuracy_as_a_function_of_time.png']);
 
 
 % Plot temporal cross training decoding accuracies
 % create the plot results object
 % note that this object takes a string in its constructor not a cell array
-plot_obj_matrix = plot_standard_results_TCT_object(save_file_name);
-% put a line at the time when the stimulus was shown
-plot_obj_matrix.significant_event_times = 0;
-% display the results
-plot_obj_matrix.plot_results;
-ylim([0 100]);
-line([0 0], [0 100], 'color', [0.6 0.6 0.6]);
-%   saveas(gcf, [output_path '\temporal_cross_training_decoding_accuracies' rng_name nu '.png']);
+ plot_obj_matrix = plot_standard_results_TCT_object(save_file_name);
+ % put a line at the time when the stimulus was shown
+ plot_obj_matrix.significant_event_times = 0;
+ % display the results
+ plot_obj_matrix.plot_results;
+ ylim([0 100]);
+ line([0 0], [0 100], 'color', [0.6 0.6 0.6]);
+% %   saveas(gcf, [output_path '\temporal_cross_training_decoding_accuracies' rng_name nu '.png']);
 
 beep
