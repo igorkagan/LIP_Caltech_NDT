@@ -14,14 +14,17 @@ load('Y:\Projects\LIP_Caltech\Gutalin\20110126\GU_20110126_1-01.psth.mat'); % on
 % count number of units in this run
 N_units =  numel(unitinfo);
 
-if ~exist('PSTHinstr','var');
+if ~exist('PSTHinstr','var')
     PSTHinstr       = PSTH_mem_instr;
     PSTHchoice      = PSTH_mem_choice;
 end
 
-% adjust timeline
-bins = bins > 1
 
+bins = PSTHinstr(1,1).bins;
+
+
+% adjust timeline here if needed
+% ...
 
 % labels
 labels = {'instr_r','instr_l','choice_r','choice_l'};
@@ -65,13 +68,13 @@ for u = 1:N_units % for each unit
     
 
     binned_site_info.binning_parameters.raster_file_directory_name = OUTPUT_PATH;
-    binned_site_info.binning_parameters.bin_width = 150;
-    binned_site_info.binning_parameters.sampling_interval =  50
-    binned_site_info.binning_parameters.start_time = 1
-    binned_site_info.binning_parameters.end_time = 1000
-    binned_site_info.binning_parameters.the_bin_start_times = [1 51 101 151 201 251 301 351 401 451 501 551 601 651 701 751 801 851]
-    binned_site_info.binning_parameters.the_bin_widths = [150 150 150 150 150 150 150 150 150 150 150 150 150 150 150 150 150 150]
-    binned_site_info.binning_parameters.alignment_event_time = 501
+    binned_site_info.binning_parameters.bin_width = (bins(2) - bins(1))*1000; % in ms
+    binned_site_info.binning_parameters.sampling_interval =  (bins(2) - bins(1))*1000;
+    binned_site_info.binning_parameters.start_time = 0;
+    binned_site_info.binning_parameters.end_time = 7;
+    binned_site_info.binning_parameters.the_bin_start_times = bins;
+    binned_site_info.binning_parameters.the_bin_widths = repmat((bins(2) - bins(1))*1000,size(bins));
+    binned_site_info.binning_parameters.alignment_event_time = 1800; % time of cue onset
     
     
     % saving
