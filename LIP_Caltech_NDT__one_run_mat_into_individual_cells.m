@@ -61,8 +61,8 @@ for u = 1:N_units % for each unit
         
 
     %create binned_site_info
-    binned_site_info.session_ID(u)          = unitinfo(u).session;
-    binned_site_info.recording_channel(u)   = unitinfo(u).channame; 
+    binned_site_info.session_ID{u}          = unitinfo(u).session;
+    binned_site_info.recording_channel{u}   = unitinfo(u).channame; 
     binned_site_info.unit{u}                = unitinfo(u).ucellname;
     binned_site_info.alignment_event_time(u) = 1800;
     
