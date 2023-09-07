@@ -14,12 +14,24 @@ N_files = numel(files);
 n_units = 0;
 for f = 1:N_files
     
-    [binned_data1, binned_labels1, binned_site_info1] = LIP_Caltech_NDT__one_run_mat_into_individual_cells(files{f});                    
-                    
+    disp(['Processing ' files{f}]);
+    [binned_data1, binned_labels1, binned_site_info1] = LIP_Caltech_NDT__one_run_mat_into_individual_cells(files{f});                                    
     n_units_in_file = numel(binned_data1);
+  
     binned_data(n_units + 1:n_units + n_units_in_file) = binned_data1;
-    binned_labels(n_units + 1:n_units + n_units_in_file) = binned_labels1;
-    binned_site_info(n_units + 1:n_units + n_units_in_file) = binned_site_info1;
+    
+    if f == 1
+        binned_labels.stimulus_ID = binned_labels1.stimulus_ID;
+        binned_site_info = binned_site_info1;
+    else
+        binned_labels.stimulus_ID           = [binned_labels.stimulus_ID binned_labels1.stimulus_ID];
+        binned_site_info.session_ID         = [binned_site_info.session_ID binned_site_info1.session_ID];
+        binned_site_info.recording_channel  = [binned_site_info.recording_channel binned_site_info1.recording_channel];
+        binned_site_info.unit               = [binned_site_info.unit binned_site_info1.unit];
+        binned_site_info.alignment_event_time = [binned_site_info.alignment_event_time binned_site_info1.alignment_event_time];
+        
+    end
+    
     n_units = n_units + n_units_in_file;
     
 end

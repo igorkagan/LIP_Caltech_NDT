@@ -1,5 +1,5 @@
 function [binned_data, binned_labels, binned_site_info] = LIP_Caltech_NDT__one_run_mat_into_individual_cells(mat_filename)
-% LIP_Caltech_NDT__one_run_mat_into_individual_cells('Y:\Projects\LIP_Caltech\Gutalin\20110126\GU_20110126_1-01.psth.mat')
+% [binned_data, binned_labels, binned_site_info] = LIP_Caltech_NDT__one_run_mat_into_individual_cells('Y:\Projects\LIP_Caltech\Gutalin\20110126\GU_20110126_1-01.psth.mat');
 
 % This code loads one psth.mat file and converts it to a cell array (where N is number of units), one cell per unit, according to NDT binned data format.
 
@@ -68,22 +68,16 @@ for u = 1:N_units % for each unit
     binned_site_info.unit{u}                = unitinfo(u).ucellname;
     binned_site_info.alignment_event_time(u) = 1800;
     
-
-    binned_site_info.binning_parameters.raster_file_directory_name = OUTPUT_PATH;
-    binned_site_info.binning_parameters.bin_width = (bins(2) - bins(1))*1000; % in ms
-    binned_site_info.binning_parameters.sampling_interval =  (bins(2) - bins(1))*1000;
-    binned_site_info.binning_parameters.start_time = 0; % ms
-    binned_site_info.binning_parameters.end_time = 7000; % ms
-    binned_site_info.binning_parameters.the_bin_start_times = bins;
-    binned_site_info.binning_parameters.the_bin_widths = repmat((bins(2) - bins(1))*1000,size(bins));
-    binned_site_info.binning_parameters.alignment_event_time = 1800; % time of cue onset
     
-    
-    % saving
-    new_FullName = [OUTPUT_PATH unitinfo(u).ucellname '_binned_data_forNDT.mat']; % output folder + name of file
-    save(new_FullName,'binned_data', 'binned_labels', 'binned_site_info');
-    % save(new_FullName,'PSTH_mem_instr_right', 'PSTH_mem_instr_left', 'PSTH_mem_choice_right', 'PSTH_mem_choice_left');
-    disp(['Saved ' new_FullName]);
     
 end 
+
+binned_site_info.binning_parameters.raster_file_directory_name = OUTPUT_PATH;
+binned_site_info.binning_parameters.bin_width = (bins(2) - bins(1))*1000; % in ms
+binned_site_info.binning_parameters.sampling_interval =  (bins(2) - bins(1))*1000;
+binned_site_info.binning_parameters.start_time = 0; % ms
+binned_site_info.binning_parameters.end_time = 7000; % ms
+binned_site_info.binning_parameters.the_bin_start_times = bins;
+binned_site_info.binning_parameters.the_bin_widths = repmat((bins(2) - bins(1))*1000,size(bins));
+binned_site_info.binning_parameters.alignment_event_time = 1800; % time of cue onset
 
