@@ -35,7 +35,7 @@ for u = 1:N_units % for each unit
 
     % 4 conditions
     
-    if size(PSTH_mem_instr,2) > 2 % 8 targets, sort to right: 2,3,4 and left: 6, 7, 8
+    if size(PSTH_mem_instr,2) > 2 % 8 targets, sort to right: 2, 3, 4 and left: 6, 7, 8
         
         PSTHinstr_right = [PSTHinstr(u,2).histo_trial; PSTHinstr(u,3).histo_trial; PSTHinstr(u,4).histo_trial];
         PSTHinstr_left  = [PSTHinstr(u,6).histo_trial; PSTHinstr(u,7).histo_trial; PSTHinstr(u,8).histo_trial];
@@ -80,9 +80,10 @@ for u = 1:N_units % for each unit
     
     
     % saving
-%     new_FullName = [OUTPUT_PATH unitinfo(u).ucellname '_binned_data_forNDT.mat']; % output folder + name of file
-%     save(new_FullName,'PSTH_mem_instr_right', 'PSTH_mem_instr_left', 'PSTH_mem_choice_right', 'PSTH_mem_choice_left');
-%     disp(['Saved ' new_FullName]);
-      
-end
+    new_FullName = [OUTPUT_PATH unitinfo(u).ucellname '_binned_data_forNDT.mat']; % output folder + name of file
+    save(new_FullName,'binned_data', 'binned_labels', 'binned_site_info');
+    % save(new_FullName,'PSTH_mem_instr_right', 'PSTH_mem_instr_left', 'PSTH_mem_choice_right', 'PSTH_mem_choice_left');
+    disp(['Saved ' new_FullName]);
+    
+end 
 
