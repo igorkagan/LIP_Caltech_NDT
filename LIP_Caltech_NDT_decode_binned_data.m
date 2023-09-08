@@ -11,7 +11,8 @@ run('LIP_Caltech_NDT_settings');
 load(binned_format_file_name);
 
 
-labels_to_use = {'choice_r', 'choice_l'};
+labels_to_use = {'instr_r', 'instr_l'};
+% labels_to_use = {'choice_r', 'choice_l'};
 
 % Determining how many times each condition was repeated
 for k = 1:40
