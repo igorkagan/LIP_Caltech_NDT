@@ -12,6 +12,9 @@ load(binned_format_file_name);
 
 
 labels_to_use = {'instr_r', 'instr_l'};
+
+labels_to_use_string = strjoin(labels_to_use);
+
 % labels_to_use = {'choice_r', 'choice_l'};
 
 % Determining how many times each condition was repeated
@@ -76,7 +79,7 @@ the_cross_validator.test_only_at_training_times = 1;
 
 % Running the decoding analysis and saving the results
 DECODING_RESULTS = the_cross_validator.run_cv_decoding;
-save_file_name = [binned_format_file_name(1:end-4) '_DECODING_RESULTS.mat'];
+save_file_name = [binned_format_file_name(1:end-4) '_' labels_to_use_string '_DECODING_RESULTS.mat'];
 save(save_file_name, 'DECODING_RESULTS');
 
 
@@ -93,7 +96,8 @@ plot_obj.significant_event_times = [0 1200];
 % display the results
 plot_obj.plot_results;
 
-% title(ds.label_names_to_use);
-saveas(gcf, [binned_format_file_name(1:end-4) '_DA_as_a_function_of_time.png']);
+title(labels_to_use_string);
+
+saveas(gcf, [binned_format_file_name(1:end-4) '_' labels_to_use_string '_DA_as_a_function_of_time.png']);
 
 
