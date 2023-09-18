@@ -1,7 +1,7 @@
 function LIP_Caltech_NDT__convert_many_runs_mat_into_binned_format(filelist)
 % LIP_Caltech_NDT__convert_many_runs_mat_into_binned_format('filelist_290_tuned_units_95_runs');
 
-run('LIP_Caltech_NDT_settings');
+run('LIP_Caltech_NDT__settings');
 run(filelist);
 
 % run('filelist_290_tuned_units_95_runs');
@@ -37,7 +37,7 @@ for f = 1:N_files
 end
 
 % save binned data
-file2save = [OUTPUT_PATH filelist '_' num2str(n_units) '_units_binned_data.mat'];
+file2save = [OUTPUT_PATH filelist '_' num2str(n_units) '_units_' num2str(settings.bin_dur) '_ms_binned_data.mat'];
 save(file2save,'binned_data','binned_labels','binned_site_info');
 disp([file2save ' saved']);
 
