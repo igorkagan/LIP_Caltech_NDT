@@ -147,7 +147,11 @@ for iTrainPosition = 1:2
       end
       % create the generalization datasource for training and testing at the current locations
       ds = generalization_DS([binned_format_file_name(1:end-4) '_smoothed.mat'], specific_labels_names_to_use, num_cv_splits, the_training_label_names, the_test_label_names);       
- 
+      the_labels_to_use = {'instr_r', 'instr_l', 'choice_r', 'choice_l'};
+      %ds.site_to_use =
+      %find_sites_with_at_least_k_repeats_of_each_label(the_labels_to_use, num_cv_splits)
+      ds.site_to_use = find_sites_with_k_label_repetitions(binned_labels.stimulus_ID, num_cv_splits, the_labels_to_use);  
+      
       % create the cross-validator
       the_cross_validator = standard_resample_CV(ds, the_classifier, the_feature_preprocessors);
       the_cross_validator.num_resample_runs = settings.num_resample_runs; 
