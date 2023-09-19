@@ -4,7 +4,14 @@ run('LIP_Caltech_NDT__settings');
 
 load(save_file_name);
 
-labels_to_use_string = strjoin(DECODING_RESULTS.DS_PARAMETERS.label_names_to_use); 
+if isfield(DECODING_RESULTS.DS_PARAMETERS,'the_training_label_names')
+    
+    labels_to_use_string = [strjoin(vertcat(vertcat(DECODING_RESULTS.DS_PARAMETERS.the_training_label_names{:}))) ' as train ' ...
+                            strjoin(vertcat(vertcat(DECODING_RESULTS.DS_PARAMETERS.the_test_label_names{:}))) ' as test'];
+
+else
+    labels_to_use_string = strjoin(DECODING_RESULTS.DS_PARAMETERS.label_names_to_use); 
+end
 
 
 result_names{1} = save_file_name;
@@ -24,5 +31,5 @@ title(labels_to_use_string);
 
 set(gca,'Xlim',settings.time_lim, 'Ylim',settings.y_lim);
 
-saveas(gcf, [save_file_name(1:end-4) '_' labels_to_use_string '_DA_as_a_function_of_time.png']);
+saveas(gcf, [save_file_name(1:end-4) '_DA_as_a_function_of_time.png']);
 
